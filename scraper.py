@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import argparse
 import urllib2
 import re
 import string as str
@@ -22,6 +23,32 @@ def get_filename(link):
     filename = str.replace(report_html_file, ".html", ".csv")
     return filename
 
+def is_within_date_range(link, start_date, end_date):
+    href = link['href']
+    splits = str.split(href, "/")
+    report_html_file = splits[len(splits) - 1]
+    report_base_name = str.replace(report_html_file, ".html", "")
+    splits = str.split(report_base_name, "-")
+    date_str = splits[2]
+
+    year = date_str[0:4]
+    month = date_str[4:6]
+    date = date_str[6:8]
+
+    date_str = str.join([year, month, date], "-")
+
+    within_range_start = (start_date == None) or (date_str >= start_date)
+    within_range_end = (end_date == None) or (date_str <= end_date)
+
+    return within_range_start and within_range_end
+
+# Parse arguments
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--start_date", help = "date of first report to download data for")
+parser.add_argument("--end_date", help = "date of last report to download data for")
+args = parser.parse_args()
+
 # Initialize output directory
 
 data_dir = "data/kbdi/"
@@ -40,6 +67,11 @@ page_reader = BeautifulSoup(page.read(), "lxml")
 links = page_reader.find_all("a", href = re.compile("archive/kbdi-report-20"))
 
 for link in links:
+
+    # if the report is not in the specified date range, skip it
+    if not is_within_date_range(link, args.start_date, args.end_date):
+        continue
+
     report_href = link['href']
     report_filename = get_filename(report_href)
     output_filename = data_dir + report_filename
