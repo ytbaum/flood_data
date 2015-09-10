@@ -1,3 +1,7 @@
+# This script scrapes KBDI data from http://flame.fl-dof.com/cgi-bin/KbdiArchiveListing.py
+# Specifically, it grabs all archived reports from that site and saves them as
+# .csv files locally
+
 from bs4 import BeautifulSoup
 import argparse
 import urllib2

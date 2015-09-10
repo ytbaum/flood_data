@@ -1,5 +1,7 @@
 source("helpers.R")
 
+### Initialize constants, data frames, etc.
+
 proj.root <- getwd()
 kbdi.dir <- paste0(proj.root, "/data/kbdi/")
 
@@ -12,6 +14,9 @@ counties.df <- data.frame()
 
 print(paste0("Processing daily data..."))
       
+### For every file in the kbdi raw files, break it up into
+### statewide data, district data, and county data
+
 for (filename in kbdi.filenames) {
   date <- get.kbdi.date(filename)
   date.file <- paste(c(kbdi.dir, filename), collapse="")
@@ -35,6 +40,8 @@ for (filename in kbdi.filenames) {
     counties.df <- rbind(counties.df, counties.date.df)
   }
 }
+
+### Write each aggregated data frame to its own .csv
 
 print("Writing data to .csv files...")
 

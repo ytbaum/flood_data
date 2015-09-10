@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This script is just a wrapper for
+# awk/waterwatch_cur_resources.awk
+
 set -eu
 
 # the directory this script lives in
