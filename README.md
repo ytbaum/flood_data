@@ -16,7 +16,7 @@ The following are the datasets that have been incorporated into this project:
   * `kbdi_scraper.py`
   * `read_data.R`
 * Relevant directories: data/kbdi
-* Date Range: 2011-01-01 - current
+* Date range: 2011-01-01 - current
 
 #### Description
 
@@ -44,7 +44,7 @@ aggregated .csv files, one for each level of geographic granularity.
   * `sh/waterwatch_cur_resources.sh`
   * `awk/waterwath_cur_resources.awk`
 * Relevant directories: data/waterwatch
-* Date Range: 2001-01-16 - current
+* Date range: 2001-01-16 - current
 
 #### Description
 
@@ -59,3 +59,35 @@ this file in the `data/waterwatch/` directory. (That file is already included
 in this repository). Then run `sh/waterwatch_cur_resources.sh`. The final
 version of this data will appear in the output file
 `waterwatch_cur_resources.tsv` in the same directory as the input file.
+
+### USGS Data
+
+* Source: http://waterdata.usgs.gov/fl/nwis/gw/. This is actually a portal to 
+several different datasets. Steps for obtaining the data:
+  * For `dv_sites.tsv`:
+    1. Click "Daily Data"
+    2. Under “Site Location”, check “Alachua County”.  Un-check "Site Type" and any other boxes that might be selected by default.  Click “Submit”.
+    3. Under “County”, select “Alachua County”. 
+    4. Under “Choose Output Format”, select “Site-description information displayed in” and in the drop-down menu choose “--saved to compressed file”.
+    5. In the multi-select list labeled “(Select fields to include in site-description output)”, Shift-click to select all possible values.
+    6. Scroll to the bottom of the page and click “Submit”.
+    7. This will download a file named `dv`.  Note that this is a file compressed
+    using the 'gunzip' format.  To uncompress it, rename the file to `dv.gz` and
+    then run gunzip on it (`gunzip dv.gz` at the linux commandline).  Rename the
+    file to `dv_sites.tsv`.
+  * For `dv_data.tsv`:
+    1. repeat steps 1-4 as above.
+    2. Under “Retrieve USGS Groundwater Daily Data for Selected Sites” →
+    “Retrieve data for:”, select the desired date range (in this case, 1/1/2005
+    through 9/2/2015).
+    3. Under “Output options”, select “Tab-separated data”, “YYYY-MM-DD”, and
+    “Save to compressed file”.
+    4. Repeat steps 7 and 8 from above, except that instead of renaming the
+    final file to `dv_sites.tsv`, rename it to `dv_data.tsv.`
+* Relevant scripts: no scripts to process this data have been added yet.
+* Relevant directories: `data/waterdata_us_gov`
+* Date range: varies by USGS station (see data).
+
+#### Description
+
+See the explanation page at http://help.waterdata.usgs.gov/faq/about-tab-delimited-output.
