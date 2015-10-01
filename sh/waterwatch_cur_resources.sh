@@ -6,7 +6,7 @@
 set -eu
 
 # the directory this script lives in
-SCRIPT_DIR=$(dirname "$0")
+SCRIPT_DIR=`cd $(dirname "$0") && pwd`
 
 PROJ_ROOT=$SCRIPT_DIR/..
 AWK_DIR=$PROJ_ROOT/awk
